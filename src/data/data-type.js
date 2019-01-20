@@ -10,8 +10,9 @@ import { DATA_REGEX_PATTERN } from '../constants';
 const _data_core = {
   _is: (type, primitive = false) => {
     return function (obj) {
-      return primitive ? typeof obj === type.toLowerCase() : {}.toString.call(obj) === '[object ' + type + ']';
-    }
+      return primitive ? typeof obj === type.toLowerCase() : 
+                         {}.toString.call(obj) === '[object ' + type + ']';
+    };
   },
   _isWindow: (item) => {
     return item && typeof obj === 'object' && 'setInterval' in item;
@@ -47,7 +48,7 @@ export class DataType {
       return false;
     }
     let key;
-    for (key in item) {}
+    // for (key in item) {}
     return key === undefined || _hasOwn.call(item, key);
   }
   /**

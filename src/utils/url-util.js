@@ -16,10 +16,10 @@ export class UrlUtil {
    */
   static redirect(url) {
     if (!url || !DataType.isString(url)) {
-      console.error(`当前地址: ${url} 不合法，无法跳转!`);
+      // console.error(`当前地址: ${url} 不合法，无法跳转!`); 
       return;
     }
-    if (!url.startsWith('#') && isHash) {
+    if (!url.startsWith('#')) {
       url = '#' + url;
     }
     window.location.hash = url;
