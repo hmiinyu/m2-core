@@ -14,6 +14,10 @@ const _data_core = {
                          {}.toString.call(obj) === '[object ' + type + ']';
     };
   },
+  _match: (item, pattern) => {
+    const regex = new RegExp(pattern);
+    return regex.test(item);
+  },
   _isWindow: (item) => {
     return item && typeof obj === 'object' && 'setInterval' in item;
   },
@@ -105,52 +109,55 @@ export class DataType {
    * @returns {Boolean} 如果为Guid则返回true, 否则返回false
    */
   static isGuid(item) {
-    const regex = new RegExp(DATA_REGEX_PATTERN.guid);
-    return regex.test(item);
+    return _data_core._match(item, DATA_REGEX_PATTERN.guid);
   }
   /**
    * @method 检测当前类型是否为手机号码
    * @param item 当前检测的类型
+   * @param pattern 当前检测的正则匹配表达式（默认值：DATA_REGEX_PATTERN.mobile）
    * @returns {Boolean} 如果为手机号码则返回true, 否则返回false
    */
-  static isMobilePhone(item) {
-    const regex = new RegExp(DATA_REGEX_PATTERN.mobile);
-    return regex.test(item);
+  static isMobilePhone(item, pattern = DATA_REGEX_PATTERN.mobile) {
+    return _data_core._match(item, pattern);
   }
   /**
    * @method 检测当前类型是否为座机号码
    * @param item 当前检测的类型
+   * @param pattern 当前检测的正则匹配表达式（默认值：DATA_REGEX_PATTERN.tel）
    * @returns {Boolean} 如果为座机号码则返回true, 否则返回false
    */
-  static isTelPhone(item) {
-    const regex = new RegExp(DATA_REGEX_PATTERN.tel);
-    return regex.test(item);
+  static isTelPhone(item, pattern = DATA_REGEX_PATTERN.tel) {
+    return _data_core._match(item, pattern);
   }
   /**
    * @method 检测当前类型是否为电话号码(手机或座机)
    * @param item 当前检测的类型
+   * @param {Object} {mobile} 当前检测手机的正则匹配表达式（默认值：DATA_REGEX_PATTERN.mobile）
+   * @param {Object} {tel} 当前检测座机的正则匹配表达式（默认值：DATA_REGEX_PATTERN.tel）
    * @returns {Boolean} 如果为电话号码则返回true, 否则返回false
    */
-  static isPhone(item) {
-    return this.isMobilePhone(item) || this.isTelPhone(item);
+  static isPhone(item, { mobile, tel } = {}) {
+    mobile = this.defaultVal(mobile, DATA_REGEX_PATTERN.mobile);
+    tel = this.defaultVal(tel, DATA_REGEX_PATTERN.tel);
+    return this.isMobilePhone(item, mobile) || this.isTelPhone(item, tel);
   }
   /**
    * @method 检测当前类型是否为电子邮件
    * @param item 当前检测的类型
+   * @param pattern 当前检测的正则匹配表达式（默认值：DATA_REGEX_PATTERN.email）
    * @returns {Boolean} 如果为电子邮件则返回true, 否则返回false
    */
-  static isEmail(item) {
-    const regex = new RegExp(DATA_REGEX_PATTERN.email);
-    return regex.test(item);
+  static isEmail(item, pattern = DATA_REGEX_PATTERN.email) {
+    return _data_core._match(item, pattern);
   }
   /**
    * @method 检测当前类型是否为身份证号(支持15位或18位)
    * @param item 当前检测的类型
+   * @param pattern 当前检测的正则匹配表达式（默认值：DATA_REGEX_PATTERN.idcard）
    * @returns {Boolean} 如果为身份证号则返回true, 否则返回false
    */
-  static isIdCard(item) {
-    const regex = new RegExp(DATA_REGEX_PATTERN.idcard);
-    return regex.test(item);
+  static isIdCard(item, pattern = DATA_REGEX_PATTERN.idcard) {
+    return _data_core._match(item, pattern);
   }
   /**
    * @method 为当前数据类型提供默认值
