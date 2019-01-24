@@ -60,5 +60,3 @@ export class DataFetch {
     });
   }
 }
-
-

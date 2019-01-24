@@ -15,6 +15,7 @@ export const DATA_SEPARATOR = {
   dollar: '$',
   slash: '/',
   backslash: '\\',
+  underline: '_',
   whitespace: ' '
 };
 /**
@@ -102,3 +103,14 @@ export const REQUEST_METHOD = {
   Get: 'get',
   Post: 'post'
 };
+/**
+ * @constant 字符串字母格式
+ * @author Miracle He
+ * @version v1.0.0
+ * @createDate 2019-01-20
+ */
+export const LETTER_CASE = {
+  Upper: 'upper',
+  Lower: 'lower',
+  Other: ''
+}

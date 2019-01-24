@@ -4,7 +4,7 @@
   "description": "The package is provided utilities and facilities for business frontend framework.",
   "license": "MIT",
   "repository": "m2-core",
-  "main": "src/index.js",
+  "main": "index.js",
   "keywords": [
     "npm",
     "package",

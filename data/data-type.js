@@ -5,7 +5,7 @@
  * @description 基于数据类型基础类
  * @createDate 2019-01-20
  */
-import { DATA_REGEX_PATTERN } from '../constants';
+import { DATA_SEPARATOR, LETTER_CASE, DATA_REGEX_PATTERN } from '../constants';
 
 const _data_core = {
   _is: (type, primitive = false) => {
@@ -19,7 +19,7 @@ const _data_core = {
     return regex.test(item);
   },
   _isWindow: (item) => {
-    return item && typeof obj === 'object' && 'setInterval' in item;
+    return item && typeof item === 'object' && 'setInterval' in item;
   },
   _hasOwn: Object.prototype.hasOwnProperty
 };
@@ -44,7 +44,7 @@ export class DataType {
     }
     // 兼容IE
     try {
-      if(item.constructor && !_hasOwn.call(item, 'constructor') 
+      if (item.constructor && !_hasOwn.call(item, 'constructor') 
         && !_hasOwn.call(item.constructor.prototype, 'isPrototypeOf')) {
         return false;
       }
@@ -136,9 +136,7 @@ export class DataType {
    * @param {Object} {tel} 当前检测座机的正则匹配表达式（默认值：DATA_REGEX_PATTERN.tel）
    * @returns {Boolean} 如果为电话号码则返回true, 否则返回false
    */
-  static isPhone(item, { mobile, tel } = {}) {
-    mobile = this.defaultVal(mobile, DATA_REGEX_PATTERN.mobile);
-    tel = this.defaultVal(tel, DATA_REGEX_PATTERN.tel);
+  static isPhone(item, { mobile = DATA_REGEX_PATTERN.mobile, tel = DATA_REGEX_PATTERN.tel } = {}) {
     return this.isMobilePhone(item, mobile) || this.isTelPhone(item, tel);
   }
   /**
@@ -176,5 +174,24 @@ export class DataType {
    */
   static pick(item, ...props) {
     return props.reduce((prop, val) => (val in item && (prop[val] = item[val]), prop), {}); // eslint-disable-line
+  }
+  /**
+   * @method 将字符串按大小字母分隔并返回(大写，小写，原样)
+   * @param {String} item 当前指定的字符串
+   * @param {Object} separaror 分隔符（默认：_）
+   * @param {Object} letterCase 以哪种形式返回（默认: 'upper', 也可为lower,other）
+   * @returns {Array} 返回操作后的字符串
+   */
+  static uncamelize(item, { separaror = DATA_SEPARATOR.underline, letterCase = LETTER_CASE.Upper} = {}) {
+    if (!this.isString(item)) return item;
+    const result = item.replace(/([a-z\d])([A-Z])/g, '$1' + separaror + '$2')
+                       .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separaror + '$2');
+    if (letterCase === LETTER_CASE.Upper) {
+      return result.toUpperCase();
+    } else if (letterCase === LETTER_CASE.Lower) {
+      return result.toLowerCase();
+    } else {
+      return result;
+    }
   }
 }
