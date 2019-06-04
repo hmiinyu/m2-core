@@ -1,21 +1,24 @@
 {
   "name": "m2-core",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "The package is provided utilities and facilities for business frontend framework.",
   "license": "MIT",
-  "repository": "m2-core",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hmiinyu/m2-core.git"
+  },
   "main": "index.js",
   "keywords": [
     "npm",
-    "package",
-    "utilities",
-    "facilities",
     "frontend",
     "framework",
+    "m2",
     "m2-core"
   ],
   "dependencies": {
     "axios": "^0.18.0",
+    "crypto-js": "^3.1.9-1",
+    "events": "^3.0.0",
     "jsonp": "^0.2.1",
     "moment": "^2.22.2"
   }

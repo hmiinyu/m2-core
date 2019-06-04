@@ -113,4 +113,70 @@ export const LETTER_CASE = {
   Upper: 'upper',
   Lower: 'lower',
   Other: ''
-}
+};
+/**
+ * @constant 请求默认常量
+ * @author Miracle He
+ * @version v1.0.0
+ * @createDate 2019-01-20
+ */
+export const FETCH_DEFAULT_OPTIONS = {
+  loading: true,
+  method: REQUEST_METHOD.Get,
+  params: {},
+  key: false,
+  keyLen: 5
+};
+/**
+ * @constant 非对称加密算法类型
+ * @author Miracle He
+ * @version v1.0.0
+ * @createDate 2019-01-20
+ */
+export const ASYMMETRIC_CRYPTO_TYPE = {
+  MD5: { name: 'MD5' },
+  SHA1: { name: 'SHA1' },
+  SHA3: { name: 'SHA3' },
+  SHA224: { name: 'SHA224' },
+  SHA256: { name: 'SHA256' },
+  SHA384: { name: 'SHA384' },
+  SHA512: { name: 'SHA512' },
+  HMACMD5: { name: 'HmacMD5', hmac: true },
+  HMACSHA1: { name: 'HmacSHA1', hmac: true },
+  HMACSHA3: { name: 'HmacSHA3', hmac: true },
+  HMACSHA224: { name: 'HmacSHA224', hmac: true },
+  HMACSHA256: { name: 'HmacSHA256', hmac: true },
+  HMACSHA384: { name: 'HmacSHA384', hmac: true },
+  HMACSHA512: { name: 'HmacSHA512', hmac: true },
+  PBKDF2: { name: 'PBKDF2', params: { keySize: 128/32, iterations: 10 } },
+  EVPKDF: { name: 'EvpKDF', params: { keySize: 128/32, iterations: 10 }  },
+  RIPEMD160: { name: 'RIPEMD160', params: { keySize: 128/32, iterations: 10 } },
+  NONE: { name: '' }
+};
+/**
+ * @constant 对称加密算法类型
+ * @author Miracle He
+ * @version v1.0.0
+ * @createDate 2019-01-20
+ */
+export const SYMMETRIC_CRYPTO_TYPE = {
+  BASE64: { name: 'Base64', encoding: true },
+  AES: { name: 'AES' },
+  DES: { name: 'DES' },
+  RC4: { name: 'RC4', iv: false },
+  RABBIT: { name: 'Rabbit' },
+  RABBITLEGACY: { name: 'RabbitLegacy' },
+  NONE: { name: '' }
+};
+/**
+ * @constant 存储常量
+ * @author Miracle He
+ * @version v1.0.0
+ * @createDate 2019-01-20
+ */
+export const DEFAULT_STORAGE_OPTIONS = {
+  storageType: STORAGE_TYPE.Local,
+  encryptType: SYMMETRIC_CRYPTO_TYPE.NONE,
+  encryptKey: 'm2@m2-storage-key',
+  encryptIv: 'm2@m2-storage-iv'
+};

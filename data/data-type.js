@@ -10,7 +10,7 @@ import { DATA_SEPARATOR, LETTER_CASE, DATA_REGEX_PATTERN } from '../constants';
 const _data_core = {
   _is: (type, primitive = false) => {
     return function (obj) {
-      return primitive ? typeof obj === type.toLowerCase() : 
+      return primitive ? typeof obj === type.toLowerCase() :
                          {}.toString.call(obj) === '[object ' + type + ']';
     };
   },
@@ -44,7 +44,7 @@ export class DataType {
     }
     // 兼容IE
     try {
-      if (item.constructor && !_hasOwn.call(item, 'constructor') 
+      if (item.constructor && !_hasOwn.call(item, 'constructor')
         && !_hasOwn.call(item.constructor.prototype, 'isPrototypeOf')) {
         return false;
       }
@@ -193,5 +193,14 @@ export class DataType {
     } else {
       return result;
     }
+  }
+  /**
+   * @method 将字符串首字母大写并返回
+   * @param {String} item 当前指定的字符串
+   * @returns {String} 返回操作后的字符串
+   */
+  static toUpperFirst(item) {
+    if (!item || !DataType.isString(item)) return item;
+    return item.charAt(0).toUpperCase() + item.slice(1);
   }
 }
