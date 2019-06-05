@@ -57,17 +57,19 @@ export class DataFetch {
    * @param {Object} {env} 当前环境变量的配置对象
    * @param {String} {apiKey} 当前请求的Api键值(多个Api时起作用，用于过滤)
    * @param {String} {method} 当前请求的方法(get,post,...)
-   * @param {Number} {timeout} 当前请求的超时时间
+   * @param {Number} {timeout} 当前请求的超时时
+   * @param {Object} {headers} 当前请求的header
    * @param {Object} {params} 当前请求的参数
    * @returns 返回当前请求的promise
    */
-  static request(url, { fetch, baseUrl, env, apiKey = '', method = REQUEST_METHOD.Get, timeout = 30000, params = {}} = {}) {
+  static request(url, { fetch, baseUrl, env, apiKey = '', method = REQUEST_METHOD.Get, timeout = 30000, headers = {}, params = {}} = {}) {
     const $fetch = fetch || axios;
     return new Promise((resolve, reject) => {
       const options = {
         url,
         baseURL: _parseBaseUrl(baseUrl, env, apiKey),
         method,
+        headers,
         timeout
       };
       if (method === REQUEST_METHOD.Get) {
