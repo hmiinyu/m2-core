@@ -127,7 +127,7 @@ yarn add m2-core
   | formatDate | func | format the date for the params **date**, **format**(default: YYYY-MM-DD) | DataUtil.formatDate(new Date()) |
   | formatDateTime | func | format the date time for the params **date**, **{short,format}**(default: YYYY-MM-DD HH:mm[:ss]) | DataUtil.formatDateTime(new Date()) |
   | formatTime | func | format the time for the params **date**, **{short,format}**(default: HH:mm[:ss])  | DataUtil.formatTime(new Date()) |
-- `UrlUtil` **class** Provide the functions for location url.
+  - `UrlUtil` **class** Provide the functions for location url.
   #### 
   | prop or func | type | description | example |
   | ------------ | ------------ | ------------ | ------------ |
