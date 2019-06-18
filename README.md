@@ -94,7 +94,7 @@ yarn add m2-core
   | ------------ | ------------ | ------------ | ------------ |
   | request | func | provide the http request promise for the params **url** and **options**| DataFetch.request('/api/user/list', { env, apiKey, method, timeout, headers, params }) |
   | jsonp | func | provide the cross-domain request for the params **url** and **options** | DataFetch.jsonp('http://m2.api.com/getUsers', { callbackKey })  |
-- `DataStorage` **class** Provide the uniform api based on localStorage(default), sessionStorage.
+  - `DataStorage` **class** Provide the uniform api based on localStorage(default), sessionStorage.
   #### 
   | prop or func | type | description | example |
   | ------------ | ------------ | ------------ | ------------ |
@@ -102,20 +102,35 @@ yarn add m2-core
   | set | func | save the value into storage for the params **key**, **value** and **options** | DataStorage.set('loginUser', { name: 'Miracle'}, { storageType, encryptType })  |
   | remove | func | remove the item from storage for the params **key** and **storageType**| DataStorage.remove('loginUser', STORAGE_TYPE.Local) |
   | clear | func | clear all items from storage for the params **storageType**| DataStorage.clear(STORAGE_TYPE.Local) |
-- `DataSecurity` **class** Provide the encrypt and decrypt based on symmetric and asymmetric algorithm.
+  - `DataSecurity` **class** Provide the encrypt and decrypt based on symmetric and asymmetric algorithm.
   #### 
   | prop or func | type | description | example |
   | ------------ | ------------ | ------------ | ------------ |
   | encrypt | func | encrypt the raw data for the params **data**, **crypto** and **options({key,iv})** | DataSecurity.encrypt('miracle', SYMMETRIC_CRYPTO_TYPE.DES) |
   | decrypt | func | decrypt the encrypted data for the params **data**, **crypto** and **options({key,iv})** | DataSecurity.decrypt('e1cf3f88a2dd46a6', SYMMETRIC_CRYPTO_TYPE.DES)  |
-- `GraphicVerifyCode` **class** Provide the verify code based on graphics (canvas).
+  - `GraphicVerifyCode` **class** Provide the verify code based on graphics (canvas).
   #### 
   | prop or func | type | description | example |
   | ------------ | ------------ | ------------ | ------------ |
   | validate | func | check if the user-input same as verify code for the params **val** | const verifyCode = new GraphicVerifyCode('verify_code'); verifyCode.validate(this.$input.value); |
- |
-
-    
- 
-    
- 
+  - `DataUtil` **class** Provide the functions for normalize and format data.
+  #### 
+  | prop or func | type | description | example |
+  | ------------ | ------------ | ------------ | ------------ |
+  | getDictItems | func | get all items with the specified type from the dict for the params **dict**, **type** | DataUtil.getDictItems(dict, 'user_type', { typeName, itemsName}) |
+  | getDictValue | func | get the value with the specified type and key from the dict for the params **dict**, **type**, **key** | DataUtil.getDictItems(dict, 'user_type', 'ut001', { typeName, itemsName, keyName, valueName, separator}) |
+  | extend | func | clone(deep/shallow) the object/array for the params **target**, **source**, **deep** | DataUtil.extend({}, {id:1,name:'miracle',repositories:['m2-core','m2-react','m2-redux']}, true) |
+  | clone | func | clone(deep/shallow) the object/array for the params **item**, **{deep,asArray}** | DataUtil.clone({id:1,name:'miracle',repositories:['m2-core','m2-react','m2-redux']}, {deep:true,asArray:true}) |
+  | randomString | func | get the random string for the params **len**（default:32）| DataUtil.randomString(10) |
+  | randomNumber | func | get the random number for the params **min**, **max** | DataUtil.randomNumber(10, 50) |
+  | randomColor | func | get the random color for the params **min**, **max** | DataUtil.randomColor(10, 50) |
+  | formatDate | func | format the date for the params **date**, **format**(default: YYYY-MM-DD) | DataUtil.formatDate(new Date()) |
+  | formatDateTime | func | format the date time for the params **date**, **{short,format}**(default: YYYY-MM-DD HH:mm[:ss]) | DataUtil.formatDateTime(new Date()) |
+  | formatTime | func | format the time for the params **date**, **{short,format}**(default: HH:mm[:ss])  | DataUtil.formatTime(new Date()) |
+- `UrlUtil` **class** Provide the functions for location url.
+  #### 
+  | prop or func | type | description | example |
+  | ------------ | ------------ | ------------ | ------------ |
+  | redirect | func | navigate by hash the specified url for the params **url** | UrlUtil.redirect('/login') |
+  | getHashValue | func | get the hash value from the specified url for the params **url** (default: the current location.hash) | UrlUtil.getHashValue() |
+  | getQueryValue | func | get the query string for the params **name**, **url** (default: the current location.search) | UrlUtil.getQueryValue('name', 'http://xxx.com?name=miracle') |
