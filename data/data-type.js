@@ -11,7 +11,7 @@ const _data_core = {
   _is: (type, primitive = false) => {
     return function (obj) {
       return primitive ? typeof obj === type.toLowerCase() :
-                         {}.toString.call(obj) === '[object ' + type + ']';
+        {}.toString.call(obj) === '[object ' + type + ']';
     };
   },
   _match: (item, pattern) => {
@@ -179,12 +179,12 @@ export class DataType {
   }
   /**
    * @method 获取指定对象数组指定列对应的数组
-   * @param item 当前指定的数组对象
+   * @param items 当前指定的数组对象
    * @param {Array} props 指定的列(可多列)
    * @returns {Array} 返回指定列对应的数组
    */
-  static pick(item, ...props) {
-    return props.reduce((prop, val) => (val in item && (prop[val] = item[val]), prop), {}); // eslint-disable-line
+  static pick(items, ...props) {
+    return items.map(item => props.reduce((prop, val) => (val in item && (prop[val] = item[val]), prop), {})); // eslint-disable-line
   }
   /**
    * @method 将字符串按大小字母分隔并返回(大写，小写，原样)
@@ -196,7 +196,7 @@ export class DataType {
   static uncamelize(item, { separaror = DATA_SEPARATOR.underline, letterCase = LETTER_CASE.Upper} = {}) {
     if (!this.isString(item)) return item;
     const result = item.replace(/([a-z\d])([A-Z])/g, '$1' + separaror + '$2')
-                       .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separaror + '$2');
+      .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separaror + '$2');
     if (letterCase === LETTER_CASE.Upper) {
       return result.toUpperCase();
     } else if (letterCase === LETTER_CASE.Lower) {
