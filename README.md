@@ -1,7 +1,7 @@
 ## m2-core
 
 [![](https://img.shields.io/badge/m2--core-v1.0.3-green.svg)](https://github.com/hmiinyu/m2-core.git) <br/>
-The package is provided utilities and facilities for business frontend framework. [中文文档](hhttps://github.com/hmiinyu/m2-core/master/README_ZH.md "中文文档")
+The package is provided utilities and facilities for business frontend framework.
 
 ### Usage
  - Install
@@ -86,7 +86,36 @@ yarn add m2-core
   | isValidPassword | func | check if is a valid password for **item** and **pattern**（optional） | DataType.isValidPassword('1988_$abd')  | 
   | defaultVal | func | get the value for **item** or **defaultValue**(item is undefined) | DataType.defaultVal('loading', true)  | 
   | pick | func | get the partial props for **items** and **props**(multi) | DataType.pick(users, 'name', 'age') | 
-  | uncamelize | func | split the camelcase string into separator for **items** and **{separator,letterCase}**(upper,lower) | DataType.uncamelize('getDataList') |
-  | toUpperFirst | func | convert the first letter as upper **items** | DataType.toUpperFirst('miracle') |    
+  | uncamelize | func | split the camelcase string into separator for **item** and **{separator,letterCase}**(upper,lower) | DataType.uncamelize('getDataList') |
+  | toUpperFirst | func | convert the first letter as upper **item** | DataType.toUpperFirst('miracle') |    
+  - `DataFetch` **class** Provide the http request (promise) based on axios and jsonp.
+  #### 
+  | prop or func | type | description | example |
+  | ------------ | ------------ | ------------ | ------------ |
+  | request | func | provide the http request promise for the params **url** and **options**| DataFetch.request('/api/user/list', { env, apiKey, method, timeout, headers, params }) |
+  | jsonp | func | provide the cross-domain request for the params **url** and **options** | DataFetch.jsonp('http://m2.api.com/getUsers', { callbackKey })  |
+- `DataStorage` **class** Provide the uniform api based on localStorage(default), sessionStorage.
+  #### 
+  | prop or func | type | description | example |
+  | ------------ | ------------ | ------------ | ------------ |
+  | get | func | get the value from storage for the params **key** and **options**| DataStorage.get('loginUser', { storageType, encryptType }) |
+  | set | func | save the value into storage for the params **key**, **value** and **options** | DataStorage.set('loginUser', { name: 'Miracle'}, { storageType, encryptType })  |
+  | remove | func | remove the item from storage for the params **key** and **storageType**| DataStorage.remove('loginUser', STORAGE_TYPE.Local) |
+  | clear | func | clear all items from storage for the params **storageType**| DataStorage.clear(STORAGE_TYPE.Local) |
+- `DataSecurity` **class** Provide the encrypt and decrypt based on symmetric and asymmetric algorithm.
+  #### 
+  | prop or func | type | description | example |
+  | ------------ | ------------ | ------------ | ------------ |
+  | encrypt | func | encrypt the raw data for the params **data**, **crypto** and **options({key,iv})** | DataSecurity.encrypt('miracle', SYMMETRIC_CRYPTO_TYPE.DES) |
+  | decrypt | func | decrypt the encrypted data for the params **data**, **crypto** and **options({key,iv})** | DataSecurity.decrypt('e1cf3f88a2dd46a6', SYMMETRIC_CRYPTO_TYPE.DES)  |
+- `GraphicVerifyCode` **class** Provide the verify code based on graphics (canvas).
+  #### 
+  | prop or func | type | description | example |
+  | ------------ | ------------ | ------------ | ------------ |
+  | validate | func | check if the user-input same as verify code for the params **val** | const verifyCode = new GraphicVerifyCode('verify_code'); verifyCode.validate(this.$input.value); |
+ |
+
+    
+ 
     
  
