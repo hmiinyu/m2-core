@@ -5,3 +5,4 @@ export * from './data-fetch';
 export * from './data-security';
 export * from './data-storage';
 export * from './data-type';
+export * from './data-verify';

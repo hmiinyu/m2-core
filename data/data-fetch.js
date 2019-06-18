@@ -25,26 +25,21 @@ const _parseBaseUrl = (baseUrl, env, apiKey = '') => {
     }
   }
 
-  let dataEnv = {};
-  for (let prop in env) {
-    dataEnv[prop] = { ...DataEnv[prop], ...env[prop] };
-  }
   const nodeEnv = process.env.NODE_ENV;
-  if (dataEnv) {
-    for (let prop in dataEnv) {
-      const currentEnv = dataEnv[prop];
-      if (currentEnv.env === nodeEnv || currentEnv.alias === nodeEnv) {
-        if (DataType.isString(currentEnv.api)) {
-          apiUrl = currentEnv.api;
-          !IsDev && DataStorage.set(`m2:app_api_url`, apiUrl);
-        } else if (DataType.isObject(currentEnv.api)) {
-          apiUrl = currentEnv.api[apiKey];
-          !IsDev && DataStorage.set(`m2:app_api_url_${appKey}`, apiUrl);
-        }
-        break;
+  for (let prop in env) {
+    const currentEnv = { ...(DataEnv[prop] || { env: prop, alias: prop }), ...env[prop] };
+    if (currentEnv.env === nodeEnv || currentEnv.alias === nodeEnv) {
+      if (DataType.isString(currentEnv.api)) {
+        apiUrl = currentEnv.api;
+        !IsDev && DataStorage.set(`m2:app_api_url`, apiUrl);
+      } else if (DataType.isObject(currentEnv.api)) {
+        apiUrl = currentEnv.api[apiKey];
+        !IsDev && DataStorage.set(`m2:app_api_url_${appKey}`, apiUrl);
       }
+      break;
     }
   }
+
   return apiUrl;
 };
 

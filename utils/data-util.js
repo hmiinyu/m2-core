@@ -13,8 +13,8 @@ export class DataUtil {
   /**
    * @method 获取指定类型的字典中所有的项目
    * @param {Array} dict 当前字典数据源(一般为字典数组集合)
-   * @param {String} type 字典类型 
-   * @param {Object} args 扩展配置参数(可配置字段名称) 
+   * @param {String} type 字典类型
+   * @param {Object} args 扩展配置参数(可配置字段名称)
    * @desc 如当前的字典数据源不存在或未找到指定的字典类型，则都返回空数组
    * @returns {Array} 返回对应字典类型的[{key,value}]
    */
@@ -26,18 +26,18 @@ export class DataUtil {
   /**
    * @method 获取指定类型的字典中对应key的值
    * @param {Array} dict 当前字典数据源(一般为字典数组集合)
-   * @param {String} type 字典类型 
-   * @param {String} key 指定的key值(一般为服务器下发)) 
-   * @param {Object} args 扩展配置参数(可配置字段名称) 
+   * @param {String} type 字典类型
+   * @param {String} key 指定的key值(一般为服务器下发))
+   * @param {Object} args 扩展配置参数(可配置字段名称)
    * @desc 如当前的字典数据源不存在或未找到指定的字典类型或未找到字典中指定的key，则都返回当前key值
    * @returns {String} 返回字典key对应的value值
    */
-  static getDictValue(dict, type, key, { 
-    separator = DATA_SEPARATOR.comma, 
-    typeName = 'type', 
-    itemsName = 'items', 
-    keyName = 'key', 
-    valueName = 'value' 
+  static getDictValue(dict, type, key, {
+    separator = DATA_SEPARATOR.comma,
+    typeName = 'type',
+    itemsName = 'items',
+    keyName = 'key',
+    valueName = 'value'
   } = {}) {
     if (!dict || !type || (!key && key !== '0' && key !== false)) return key;
     const dictType = dict.find(item => item[typeName] === type);
@@ -56,14 +56,14 @@ export class DataUtil {
   /**
    * @method 扩展(拷贝)已有的数据类型(数组或对象)
    * @param {Array|Object} target 拷贝的目标（对象或数组，依赖于拷贝来源）
-   * @param {Array|Object} source 拷贝的来源（对象或数组） 
+   * @param {Array|Object} source 拷贝的来源（对象或数组）
    * @param {Boolean} deep 是否进行深拷贝（默认：true）
    * @desc 只能对数组或对象进行深拷贝，其他数据类型都只能完成浅拷贝
    * @returns {Array|Object} 返回扩展(拷贝)之后的类型
    */
   static extend(target, source, deep = true) {
     // 如为浅拷贝(只支持对象或者数组的的拷贝)，则直接返回本身
-    if (!deep || (!DataType.isPlainObject(source) && !DataType.isArray(source))) return source; 
+    if (!deep || (!DataType.isPlainObject(source) && !DataType.isArray(source))) return source;
     for (const prop in source) {
       const isPlainObjectForSourceProp = DataType.isPlainObject(source[prop]);
       const isPlainObjectForTargetProp = DataType.isPlainObject(target[prop]);
@@ -115,7 +115,28 @@ export class DataUtil {
     }
     return result.toLowerCase();
   }
-   /**
+  /**
+   * @method 获取介于最小值和最大值之间的随机数
+   * @param {Number} min 最小值
+   * @param {Number} max 最大值
+   * @returns {Number} 返回对应的随机数
+   */
+  static randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+  /**
+   * @method 获取介于最小值和最大值之间的随机颜色
+   * @param {Number} min 最小值
+   * @param {Number} max 最大值
+   * @returns {String} 返回对应的随机颜色
+   */
+  static randomColor(min, max) {
+    var r = DataUtil.randomNumber(min, max);
+    var g = DataUtil.randomNumber(min, max);
+    var b = DataUtil.randomNumber(min, max);
+    return `rgb(${r},${g},${b})`;
+  }
+  /**
    * @method 使用moment格式化指定日期(不带时分秒)
    * @param {Number} date 需要格式化的日期, 如日期未传入则获取当前日期
    * @param {Number} format 格式化字符串(默认：YYYY-MM-DD)
@@ -132,13 +153,13 @@ export class DataUtil {
    * @param {Object} { format } 指定格式化字符串(将忽略short配置)
    * @returns {String} 返回格式化之后的日期
    */
-  static formatDateTime(date, { 
-    short = true, 
+  static formatDateTime(date, {
+    short = true,
     format
   } = {}) {
     if (format) {
       return DataUtil.formatDate(date, format);
-    } 
+    }
     return DataUtil.formatDate(date, short ? DATE_FORMATTER.datetime_short : DATE_FORMATTER.datetime);
   }
   /**
@@ -148,14 +169,26 @@ export class DataUtil {
    * @param {Object} { format } 指定格式化字符串(将忽略short配置)
    * @returns {String} 返回格式化之后的时间
    */
-  static formatTime(date, { 
-    short = true, 
+  static formatTime(date, {
+    short = true,
     format
   } = {}) {
     if (format) {
       return DataUtil.formatDate(date, format);
-    } 
+    }
     return DataUtil.formatDate(date, short ? DATE_FORMATTER.time_short : DATE_FORMATTER.time);
+  }
+  /**
+   * @method 获取所有的数字
+   */
+  static getAllNumbers() {
+    return '0,1,2,3,4,5,6,7,8,9'.split(',');
+  }
+  /**
+   * @method 获取所有的字母
+   */
+  static getAllLetters() {
+    return 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'.split(',');
   }
   /**
    * @method 获取表格固定列
@@ -226,12 +259,12 @@ export class DataUtil {
   static addActionColumn(columns, render = () => {}, options = {}) {
     // 首先去除之前action列
     const result = columns.filter(item => item.dataIndex !== 'action')
-    options = { 
-      title: '操作', 
-      dataIndex: 'action', 
-      width: DataUtil.getColumnWidth('lg'), 
-      key: DataUtil.randomString(10), 
-      ...options 
+    options = {
+      title: '操作',
+      dataIndex: 'action',
+      width: DataUtil.getColumnWidth('lg'),
+      key: DataUtil.randomString(10),
+      ...options
     };
     result.push({
       ...options,

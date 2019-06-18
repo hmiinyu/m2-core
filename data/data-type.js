@@ -158,6 +158,17 @@ export class DataType {
     return _data_core._match(item, pattern);
   }
   /**
+   * @method 检测密码复杂度规则(支持字母数字/字母数字特殊字符/大小写字母特殊字符)
+   * @param item 当前检测的类型
+   * @param options 当前检测密码复杂度的配置选项(默认值:{ pattern: DATA_REGEX_PATTERN.letter_number_char, min: 8, max: 30 })
+   * @returns {Boolean} 如果为合法密码则返回true, 否则返回false
+   */
+  static isValidPassword(item, options = {}) {
+    const _default = { pattern: DATA_REGEX_PATTERN.letter_number_char, min: 8, max: 30 };
+    const _options = { ..._default, ...options };
+    return _data_core._match(item, _options.pattern.replace(`{min,max}`, `{${_options.min},${_options.max}}`));
+  }
+  /**
    * @method 为当前数据类型提供默认值
    * @param item 当前数据类型
    * @param defaultValue 默认值
