@@ -87,7 +87,7 @@ export class DataSecurity {
    * @param iv 矢量(来自应用配置)
    * @returns {String} 加密之后的密文字符串
    */
-  static encrypt(data, crypto, { key, iv } = { key: '', iv: '' }) {
+  static encrypt(data, crypto, { key = '', iv = '' } = {}) {
     const _context = _checkCrypto(crypto.name);
     if (!_context) return data;
     return _context.symmetric ? _context.encrypt(data, key, iv) : _context.encrypt(data, key);
@@ -100,7 +100,7 @@ export class DataSecurity {
    * @param iv 矢量(来自应用配置)
    * @returns {String} 解密之后的原文字符串
    */
-  static decrypt(data, crypto, { key, iv } = { key: '', iv: '' }) {
+  static decrypt(data, crypto, { key = '', iv = '' } = {}) {
     const _context = _checkCrypto(crypto.name);
     if (!_context) return data;
     return _context.symmetric ? _context.decrypt(data, key, iv) : '';

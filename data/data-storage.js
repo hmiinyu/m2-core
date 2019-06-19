@@ -26,7 +26,7 @@ export class DataStorage {
   /**
    * @method 获取存储实例中指定key对应的值
    * @param key 当前存储的key
-   * @param options[storageType】存储类型（默认：STORAGE_TYPE.Local）
+   * @param options[storageType] 存储类型（默认：STORAGE_TYPE.Local）
    * @param options[encryptType] 加密类型（默认：SYMMETRIC_CRYPTO_TYPE.NONE, 仅限于AES,DES,RC4）
    * @desc 值可能为简单类型，对象或数组
    * @returns 返回当前存储key对应的值
@@ -44,7 +44,7 @@ export class DataStorage {
    * @method 设置指定key和value到储存实例中
    * @param key 当前存储的key
    * @param value 当前存储的value
-   * @param options[storageType】存储类型（默认：STORAGE_TYPE.Local）
+   * @param options[storageType] 存储类型（默认：STORAGE_TYPE.Local）
    * @param options[encryptType] 加密类型（默认：SYMMETRIC_CRYPTO_TYPE.NONE, 仅限于AES,DES,RC4）
    * @desc 支持简单数据类型，对象或数组的存储
    */

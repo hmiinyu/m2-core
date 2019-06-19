@@ -139,7 +139,7 @@ export class DataUtil {
   /**
    * @method 使用moment格式化指定日期(不带时分秒)
    * @param {Number} date 需要格式化的日期, 如日期未传入则获取当前日期
-   * @param {Number} format 格式化字符串(默认：YYYY-MM-DD)
+   * @param {String} format 格式化字符串(默认：YYYY-MM-DD)
    * @returns {String} 返回格式化之后的日期
    */
   static formatDate(date, format = DATE_FORMATTER.date) {
@@ -149,8 +149,8 @@ export class DataUtil {
   /**
    * @method 使用moment格式化指定完整日期
    * @param {Number} date 需要格式化的日期, 如日期未传入则获取当前日期
-   * @param {Object} { short } 是否格式化为不带秒的日期(默认：true，如2019-01-20 12:30)
-   * @param {Object} { format } 指定格式化字符串(将忽略short配置)
+   * @param {Boolean} { short } 是否格式化为不带秒的日期(默认：true，如2019-01-20 12:30)
+   * @param {String} { format } 指定格式化字符串(将忽略short配置)
    * @returns {String} 返回格式化之后的日期
    */
   static formatDateTime(date, {
@@ -165,8 +165,8 @@ export class DataUtil {
   /**
    * @method 使用moment格式化指定时间
    * @param {Number} date 需要格式化的日期, 如日期未传入则获取当前日期
-   * @param {Object} { short } 是否格式化为不带秒的日期(默认：true，如12:30)
-   * @param {Object} { format } 指定格式化字符串(将忽略short配置)
+   * @param {Boolean} { short } 是否格式化为不带秒的日期(默认：true，如12:30)
+   * @param {String} { format } 指定格式化字符串(将忽略short配置)
    * @returns {String} 返回格式化之后的时间
    */
   static formatTime(date, {
