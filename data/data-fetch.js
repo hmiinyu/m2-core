@@ -15,14 +15,12 @@ import { DataEnv, IsDev } from './data-env';
 const _parseBaseUrl = (baseUrl, env, apiKey = '') => {
   if (baseUrl) return baseUrl;
   let apiUrl = '';
+  const _apiKey = apiKey ? `_${apiKey}` : '';
+  const _cacheKey = `m2:app_api_url${_apiKey}`;
+
   if (!IsDev) {
-    if (apiKey) {
-      apiUrl = DataStorage.get(`m2:app_api_url_${apiKey}`);
-      if (apiUrl) return apiUrl;
-    } else {
-      apiUrl = DataStorage.get(`m2:app_api_url`);
-      if (apiUrl) return apiUrl;
-    }
+    apiUrl = DataStorage.get(_cacheKey);
+    if (apiUrl) return apiUrl;
   }
 
   const nodeEnv = process.env.NODE_ENV;
@@ -31,10 +29,11 @@ const _parseBaseUrl = (baseUrl, env, apiKey = '') => {
     if (currentEnv.env === nodeEnv || currentEnv.alias === nodeEnv) {
       if (DataType.isString(currentEnv.api)) {
         apiUrl = currentEnv.api;
-        !IsDev && DataStorage.set(`m2:app_api_url`, apiUrl);
       } else if (DataType.isObject(currentEnv.api)) {
         apiUrl = currentEnv.api[apiKey];
-        !IsDev && DataStorage.set(`m2:app_api_url_${appKey}`, apiUrl);
+      }
+      if (apiUrl) {
+        !IsDev && DataStorage.set(_cacheKey, apiUrl);
       }
       break;
     }

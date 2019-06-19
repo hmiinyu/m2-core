@@ -78,6 +78,7 @@ const _checkCrypto = (crypto) => {
   }
   return _context;
 };
+
 export class DataSecurity {
   /**
    * @method 加密当前的数据

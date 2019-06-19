@@ -18,28 +18,21 @@ export const DataEnv = {
 export const IsDev = process.env.NODE_ENV === 'development';
 export const getEnvConfig = (key = '') => {
   let config;
+  const _key = key ? `_${key}` : '';
+  const _cacheKey = `m2:app_env_config${_key}`;
+
   if (!IsDev) {
-    if (key) {
-      config = DataStorage.get(`m2:app_env_config_${key}`);
-      if (config) return config;
-    } else {
-      config = DataStorage.get(`m2:app_env_config`);
-      if (config) return config;
-    }
+    config = DataStorage.get(_cacheKey);
+    if (config) return config;
   }
 
   const nodeEnv = process.env.NODE_ENV;
   for (let prop in env) {
     const currentEnv = { ...(DataEnv[prop] || { env: prop, alias: prop }), ...env[prop] };
     if (currentEnv.env === nodeEnv || currentEnv.alias === nodeEnv) {
-      if (key) {
-        if (currentEnv[key]) {
-          config = currentEnv[key];
-          !IsDev && DataStorage.set(`m2:app_env_config_${key}`, config);
-        }
-      } else {
-        config = currentEnv;
-        !IsDev && DataStorage.set(`m2:app_env_config`, config);
+      config = key ? currentEnv[key] : currentEnv;
+      if (config) {
+        !IsDev && DataStorage.set(_cacheKey, config);
       }
       break;
     }
