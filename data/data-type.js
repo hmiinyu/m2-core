@@ -178,13 +178,23 @@ export class DataType {
     return item === undefined ? defaultValue : item;
   }
   /**
-   * @method 获取指定对象数组指定列对应的数组
-   * @param items 当前指定的数组对象
+   * @method 获取指定对象/数组指定列对应的数组或对象
+   * @param source 当前指定的数组或对象
    * @param {Array} props 指定的列(可多列)
-   * @returns {Array} 返回指定列对应的数组
+   * @returns {Array|Object} 返回指定列对应的数组或对象
    */
-  static pick(items, ...props) {
-    return items.map(item => props.reduce((prop, val) => (val in item && (prop[val] = item[val]), prop), {})); // eslint-disable-line
+  static pick(source, ...props) {
+    const _props = DataType.isArray(props) ? props[0] : props;
+    const _pickProps = (current, props) => props.reduce((prop, val) =>
+      (val in current && (prop[val] = current[val]), prop), {});  // eslint-disable-line
+    if (DataType.isObject(source)) {
+      return _pickProps(source, _props);
+    }
+    if (DataType.isArray(source)) {
+      return source.map(item => _pickProps(item, _props));
+    }
+
+    return source;
   }
   /**
    * @method 将字符串按大小字母分隔并返回(大写，小写，原样)
