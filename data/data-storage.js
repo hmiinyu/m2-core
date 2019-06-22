@@ -35,9 +35,9 @@ export class DataStorage {
     const { storageType, encryptType } = { ...DEFAULT_STORAGE_OPTIONS, ...options };
     const { storage, secret, decrypt } = _store_core(storageType, encryptType);
     try {
-      return JSON.parse(decrypt(storage[key], secret));
+      return JSON.parse(decrypt(storage[key] || '', secret));
     } catch (e) {
-      return storage.getItem(decrypt(key, secret));
+      return decrypt(storage.getItem(key) || '', secret);
     }
   }
   /**
