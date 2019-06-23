@@ -113,20 +113,20 @@ yarn add m2-core
   | prop or func | type | description | example |
   | ------------ | ------------ | ------------ | ------------ |
   | validate | func | check if the user-input same as verify code for the params **val** | const verifyCode = new GraphicVerifyCode('verify_code'); verifyCode.validate(this.$input.value); |
-  - `Mysql` **class** Provide the functions for normalize and format data.
+  - `DataUtil` **class** Provide the functions for normalize and format data.
   #### 
   | prop or func | type | description | example |
   | ------------ | ------------ | ------------ | ------------ |
-  | getDictItems | func | get all items with the specified type from the dict for the params **dict**, **type** | Mysql.getDictItems(dict, 'user_type', { typeName, itemsName}) |
-  | getDictValue | func | get the value with the specified type and key from the dict for the params **dict**, **type**, **key** | Mysql.getDictItems(dict, 'user_type', 'ut001', { typeName, itemsName, keyName, valueName, separator}) |
-  | extend | func | clone(deep/shallow) the object/array for the params **target**, **source**, **deep** | Mysql.extend({}, {id:1,name:'miracle',repositories:['m2-core','m2-react','m2-redux']}, true) |
-  | clone | func | clone(deep/shallow) the object/array for the params **item**, **{deep,asArray}** | Mysql.clone({id:1,name:'miracle',repositories:['m2-core','m2-react','m2-redux']}, {deep:true,asArray:true}) |
-  | randomString | func | get the random string for the params **len**（default:32）| Mysql.randomString(10) |
-  | randomNumber | func | get the random number for the params **min**, **max** | Mysql.randomNumber(10, 50) |
-  | randomColor | func | get the random color for the params **min**, **max** | Mysql.randomColor(10, 50) |
-  | formatDate | func | format the date for the params **date**, **format**(default: YYYY-MM-DD) | Mysql.formatDate(new Date()) |
-  | formatDateTime | func | format the date time for the params **date**, **{short,format}**(default: YYYY-MM-DD HH:mm[:ss]) | Mysql.formatDateTime(new Date()) |
-  | formatTime | func | format the time for the params **date**, **{short,format}**(default: HH:mm[:ss])  | Mysql.formatTime(new Date()) |
+  | getDictItems | func | get all items with the specified type from the dict for the params **dict**, **type** | DataUtil.getDictItems(dict, 'user_type', { typeName, itemsName}) |
+  | getDictValue | func | get the value with the specified type and key from the dict for the params **dict**, **type**, **key** | DataUtil.getDictItems(dict, 'user_type', 'ut001', { typeName, itemsName, keyName, valueName, separator}) |
+  | extend | func | clone(deep/shallow) the object/array for the params **target**, **source**, **deep** | DataUtil.extend({}, {id:1,name:'miracle',repositories:['m2-core','m2-react','m2-redux']}, true) |
+  | clone | func | clone(deep/shallow) the object/array for the params **item**, **{deep,asArray}** | DataUtil.clone({id:1,name:'miracle',repositories:['m2-core','m2-react','m2-redux']}, {deep:true,asArray:true}) |
+  | randomString | func | get the random string for the params **len**（default:32）| DataUtil.randomString(10) |
+  | randomNumber | func | get the random number for the params **min**, **max** | DataUtil.randomNumber(10, 50) |
+  | randomColor | func | get the random color for the params **min**, **max** | DataUtil.randomColor(10, 50) |
+  | formatDate | func | format the date for the params **date**, **format**(default: YYYY-MM-DD) | DataUtil.formatDate(new Date()) |
+  | formatDateTime | func | format the date time for the params **date**, **{short,format}**(default: YYYY-MM-DD HH:mm[:ss]) | DataUtil.formatDateTime(new Date()) |
+  | formatTime | func | format the time for the params **date**, **{short,format}**(default: HH:mm[:ss])  | DataUtil.formatTime(new Date()) |
   - `UrlUtil` **class** Provide the functions for location url.
   #### 
   | prop or func | type | description | example |
