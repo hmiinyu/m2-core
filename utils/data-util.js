@@ -7,7 +7,7 @@
  */
 import moment from 'moment';
 import { DataType } from '../data';
-import { DATA_SEPARATOR, DATE_FORMATTER, TABLE_COLUMN_WIDTH } from '../constants';
+import {DATA_SEPARATOR, DATE_FORMATTER, LETTER_CASE, TABLE_COLUMN_WIDTH} from '../constants';
 
 export class DataUtil {
   /**
@@ -206,6 +206,52 @@ export class DataUtil {
    */
   static getAllLetters() {
     return 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'.split(',');
+  }
+  /**
+   * @method 获取指定对象/数组指定列对应的数组或对象
+   * @param source 当前指定的数组或对象
+   * @param {Array} props 指定的列(可多列)
+   * @returns {Array|Object} 返回指定列对应的数组或对象
+   */
+  static pick(source, ...props) {
+    const _props = DataType.isArray(props) ? props[0] : props;
+    const _pickProps = (current, props) => props.reduce((prop, val) =>
+      (val in current && (prop[val] = current[val]), prop), {});  // eslint-disable-line
+    if (DataType.isObject(source)) {
+      return _pickProps(source, _props);
+    }
+    if (DataType.isArray(source)) {
+      return source.map(item => _pickProps(item, _props));
+    }
+    return source;
+  }
+  /**
+   * @method 将字符串按大小字母分隔并返回(大写，小写，原样)
+   * @param {String} item 当前指定的字符串
+   * @param {Object} separaror 分隔符（默认：_）
+   * @param {Object} letterCase 以哪种形式返回（默认: 'upper', 也可为lower,other）
+   * @returns {Array} 返回操作后的字符串
+   */
+  static uncamelize(item, { separaror = DATA_SEPARATOR.underline, letterCase = LETTER_CASE.Upper} = {}) {
+    if (!this.isString(item)) return item;
+    const result = item.replace(/([a-z\d])([A-Z])/g, '$1' + separaror + '$2')
+      .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separaror + '$2');
+    if (letterCase === LETTER_CASE.Upper) {
+      return result.toUpperCase();
+    } else if (letterCase === LETTER_CASE.Lower) {
+      return result.toLowerCase();
+    } else {
+      return result;
+    }
+  }
+  /**
+   * @method 将字符串首字母大写并返回
+   * @param {String} item 当前指定的字符串
+   * @returns {String} 返回操作后的字符串
+   */
+  static toUpperFirst(item) {
+    if (!item || !DataType.isString(item)) return item;
+    return item.charAt(0).toUpperCase() + item.slice(1);
   }
   /**
    * @method 获取表格固定列
