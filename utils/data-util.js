@@ -143,7 +143,7 @@ export class DataUtil {
    * @returns {String} 返回格式化之后的日期
    */
   static formatDate(date, format = DATE_FORMATTER.date) {
-    date = DataType.defaultVal(date, new Date());
+    if (!date) return '';
     return moment(date).format(format);
   }
   /**
