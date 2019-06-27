@@ -94,7 +94,16 @@ yarn add m2-core
   | ------------ | ------------ | ------------ | ------------ |
   | request | func | provide the http request promise for the params **url** and **options**| DataFetch.request('/api/user/list', { env, apiKey, method, timeout, headers, params }) |
   | jsonp | func | provide the cross-domain request for the params **url** and **options** | DataFetch.jsonp('http://m2.api.com/getUsers', { callbackKey })  |
-  - `DataStorage` **class** Provide the uniform api based on localStorage(default), sessionStorage.
+ - `DataFormatter` **function** Provide data formatter for date, number.
+  #### 
+  | prop or func | type | description | example |
+  | ------------ | ------------ | ------------ | ------------ |
+  | formatDate | func | a shortcut for DataUtil.formatDate | formatDate(new Date()) |
+  | formatDateTime | func | a shortcut for DataUtil.formatDateTime | formatDateTime(new Date()) |
+  | formatTime | func | a shortcut for DataUtil.formatTime | formatTime(new Date()) |
+  | formatMoney | func | format the currency into string for **money** and **precision**(default: 2) | formatMoney(123456789.123) |
+  | unformatMoney | func | unformat the currency into float for **money** | unformatMoney('123,456,789.00') |
+- `DataStorage` **class** Provide the uniform api based on localStorage(default), sessionStorage.
   #### 
   | prop or func | type | description | example |
   | ------------ | ------------ | ------------ | ------------ |
@@ -127,6 +136,7 @@ yarn add m2-core
   | formatDate | func | format the date for the params **date**, **format**(default: YYYY-MM-DD) | DataUtil.formatDate(new Date()) |
   | formatDateTime | func | format the date time for the params **date**, **{short,format}**(default: YYYY-MM-DD HH:mm[:ss]) | DataUtil.formatDateTime(new Date()) |
   | formatTime | func | format the time for the params **date**, **{short,format}**(default: HH:mm[:ss])  | DataUtil.formatTime(new Date()) |
+  | getLast12Months | func | get the previous 12 months for current date **separator**(default: '-')  | DataUtil.getLast12Months() |
   - `UrlUtil` **class** Provide the functions for location url.
   #### 
   | prop or func | type | description | example |

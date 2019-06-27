@@ -179,6 +179,23 @@ export class DataUtil {
     return DataUtil.formatDate(date, short ? DATE_FORMATTER.time_short : DATE_FORMATTER.time);
   }
   /**
+   * @method 获取最近的一年12个月
+   * @param {String} separator 年月分隔符
+   * @returns {String} 返回格式化之后的月份
+   */
+  static getLast12Months(separator = '-') {
+    const result = [];
+    const date = new Date();
+    date.setMonth(date.getMonth() + 1, 1); // 获取到当前月份,设置月份
+    for (let i = 0; i < 12; i++) {
+      date.setMonth(date.getMonth() - 1);//每次循环一次 月份值减1
+      let month = date.getMonth() + 1;
+      month = month < 10 ? '0' + month : month;
+      result.push(date.getFullYear() + separator + (month));
+    }
+    return result;
+  }
+  /**
    * @method 获取所有的数字
    */
   static getAllNumbers() {
