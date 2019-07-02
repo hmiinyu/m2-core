@@ -7,7 +7,7 @@
  */
 import moment from 'moment';
 import { DataType } from '../data';
-import {DATA_SEPARATOR, DATE_FORMATTER, LETTER_CASE, TABLE_COLUMN_WIDTH} from '../constants';
+import { DATA_SEPARATOR, DATE_FORMATTER, LETTER_CASE, DATA_REGEX_PATTERN, TABLE_COLUMN_WIDTH } from '../constants';
 
 export class DataUtil {
   /**
@@ -18,11 +18,12 @@ export class DataUtil {
    * @desc 如当前的字典数据源不存在或未找到指定的字典类型，则都返回空数组
    * @returns {Array} 返回对应字典类型的[{key,value}]
    */
-  static getDictItems(dict, type, { typeName = 'type', itemsName = 'items' } = {}) {
+  static getDictItems(dict, type, {typeName = 'type', itemsName = 'items'} = {}) {
     if (!dict || !type) return [];
     const dictType = dict.find(item => item[typeName] === type);
     return dictType && dictType[itemsName] ? dictType[itemsName] : [];
   }
+
   /**
    * @method 获取指定类型的字典中对应key的值
    * @param {Array} dict 当前字典数据源(一般为字典数组集合)
@@ -53,6 +54,7 @@ export class DataUtil {
       return dictItem ? dictItem[valueName] : key;
     }
   }
+
   /**
    * @method 扩展(拷贝)已有的数据类型(数组或对象)
    * @param {Array|Object} target 拷贝的目标（对象或数组，依赖于拷贝来源）
@@ -83,14 +85,15 @@ export class DataUtil {
     }
     return target;
   }
- /**
+
+  /**
    * @method 对指定的数据类型(数组或对象)进行拷贝
    * @param {Array|Object} item 拷贝的来源（对象或数组）
    * @param {Object} { deep } 是否进行深拷贝（默认：true）
    * @param {Boolean} { asArray } 拷贝之后是否转化为数组（仅仅只针对对象拷贝，默认：false）
    * @returns {Array|Object} 返回拷贝之后的类型
    */
-  static clone(item, { deep, asArray } = { deep: true, asArray: false }) {
+  static clone(item, {deep, asArray} = {deep: true, asArray: false}) {
     if (DataType.isArray(item)) {
       const target = this.extend([], item, deep);
       return target;
@@ -100,6 +103,7 @@ export class DataUtil {
     }
     return asArray ? [item] : item;
   }
+
   /**
    * @method 获取指定长度的随机字符串
    * @param {Number} len 指定长度(默认：32)
@@ -115,6 +119,7 @@ export class DataUtil {
     }
     return result.toLowerCase();
   }
+
   /**
    * @method 获取介于最小值和最大值之间的随机数
    * @param {Number} min 最小值
@@ -124,6 +129,7 @@ export class DataUtil {
   static randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   }
+
   /**
    * @method 获取介于最小值和最大值之间的随机颜色
    * @param {Number} min 最小值
@@ -136,6 +142,7 @@ export class DataUtil {
     var b = DataUtil.randomNumber(min, max);
     return `rgb(${r},${g},${b})`;
   }
+
   /**
    * @method 使用moment格式化指定日期(不带时分秒)
    * @param {Number} date 需要格式化的日期, 如日期未传入则获取当前日期
@@ -146,6 +153,7 @@ export class DataUtil {
     if (!date) return '';
     return moment(date).format(format);
   }
+
   /**
    * @method 使用moment格式化指定完整日期
    * @param {Number} date 需要格式化的日期, 如日期未传入则获取当前日期
@@ -162,6 +170,7 @@ export class DataUtil {
     }
     return DataUtil.formatDate(date, short ? DATE_FORMATTER.datetime_short : DATE_FORMATTER.datetime);
   }
+
   /**
    * @method 使用moment格式化指定时间
    * @param {Number} date 需要格式化的日期, 如日期未传入则获取当前日期
@@ -178,35 +187,59 @@ export class DataUtil {
     }
     return DataUtil.formatDate(date, short ? DATE_FORMATTER.time_short : DATE_FORMATTER.time);
   }
+
   /**
    * @method 获取最近的一年12个月
-   * @param {String} separator 年月分隔符
+   * @param {Object} {separator,current} 年月分隔符,是否包含当前月
    * @returns {String} 返回格式化之后的月份
    */
-  static getLast12Months(separator = '-') {
+  static getLast12Months({separator = '-', current = true} = {}) {
     const result = [];
     const date = new Date();
-    date.setMonth(date.getMonth() + 1, 1); // 获取到当前月份,设置月份
+    date.setMonth(current ? date.getMonth() + 1 : date.getMonth(), 1); // 获取到当前月份,设置月份
     for (let i = 0; i < 12; i++) {
-      date.setMonth(date.getMonth() - 1);//每次循环一次 月份值减1
+      date.setMonth(date.getMonth() - 1); // 每次循环一次 月份值减1
       let month = date.getMonth() + 1;
       month = month < 10 ? '0' + month : month;
       result.push(date.getFullYear() + separator + (month));
     }
     return result;
   }
+
+  /**
+   * @method 获取带星号的文本
+   * @param String item 当前需要处理的文本
+   * @param {Object} {stars,ignore,before} 添加多少个星号,是否不处理(原文返回),星号前导字符数
+   * @returns {String} 返回处理之后的文本
+   */
+  static getSecureText(item, {stars = 4, ignore = false, before = 3} = {}) {
+    const len = item.length;
+    if (stars <= 0 || len < stars + before || ignore) {
+      return item;
+    }
+    let secure = '';
+    for (let i = 1; i <= stars; i++) {
+      secure += '*';
+    }
+
+    const pattern = DATA_REGEX_PATTERN.secure.replace('{before}',`{${before}}`).replace('{after}', `{${len - before - stars}}`);
+    return item.replace(new RegExp(pattern), '$1' + secure + '$2');
+  }
+
   /**
    * @method 获取所有的数字
    */
   static getAllNumbers() {
     return '0,1,2,3,4,5,6,7,8,9'.split(',');
   }
+
   /**
    * @method 获取所有的字母
    */
   static getAllLetters() {
     return 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'.split(',');
   }
+
   /**
    * @method 获取指定对象/数组指定列对应的数组或对象
    * @param source 当前指定的数组或对象
@@ -225,6 +258,7 @@ export class DataUtil {
     }
     return source;
   }
+
   /**
    * @method 将字符串按大小字母分隔并返回(大写，小写，原样)
    * @param {String} item 当前指定的字符串
@@ -232,7 +266,7 @@ export class DataUtil {
    * @param {Object} letterCase 以哪种形式返回（默认: 'upper', 也可为lower,other）
    * @returns {Array} 返回操作后的字符串
    */
-  static uncamelize(item, { separaror = DATA_SEPARATOR.underline, letterCase = LETTER_CASE.Upper} = {}) {
+  static uncamelize(item, {separaror = DATA_SEPARATOR.underline, letterCase = LETTER_CASE.Upper} = {}) {
     if (!this.isString(item)) return item;
     const result = item.replace(/([a-z\d])([A-Z])/g, '$1' + separaror + '$2')
       .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separaror + '$2');
@@ -244,6 +278,7 @@ export class DataUtil {
       return result;
     }
   }
+
   /**
    * @method 将字符串首字母大写并返回
    * @param {String} item 当前指定的字符串
@@ -253,6 +288,7 @@ export class DataUtil {
     if (!item || !DataType.isString(item)) return item;
     return item.charAt(0).toUpperCase() + item.slice(1);
   }
+
   /**
    * @method 获取表格固定列
    * @param {Array} columns 表格列配置数组
@@ -260,8 +296,8 @@ export class DataUtil {
    * @param {Object} {rightCols} 右侧固定列（非必须）
    * @returns {Object} 返回配置完毕后的列(自动计算宽度)
    */
-  static getFixColumns(columns, { leftCols = [], rightCols = [] } = {}) {
-    const result = { columns: [], width: 0, check: true };
+  static getFixColumns(columns, {leftCols = [], rightCols = []} = {}) {
+    const result = {columns: [], width: 0, check: true};
     if (!DataType.isArray(columns) || DataType.isEmptyArray(columns)) {
       console.warn('当前需要固定列为空，固定列效果可能失效。');
       result.columns = columns;
@@ -300,6 +336,7 @@ export class DataUtil {
     delete result.check;
     return result;
   }
+
   /**
    * @method 获取表格列宽
    * @param {String} width 列宽(默认：'md', 还可配置'xs','sm','md','lg','xl')
@@ -312,6 +349,7 @@ export class DataUtil {
     const $width = parseInt(width);
     return isNaN($width) || $width === 0 ? TABLE_COLUMN_WIDTH['md'] : $width;
   }
+
   /**
    * @method 为表格配置操作列
    * @param {Array} columns 表格列配置数组
@@ -319,7 +357,8 @@ export class DataUtil {
    * @param {Object} options 额外配置项
    * @returns {Array} 返回带有操作列的表格
    */
-  static addActionColumn(columns, render = () => {}, options = {}) {
+  static addActionColumn(columns, render = () => {
+  }, options = {}) {
     // 首先去除之前action列
     const result = columns.filter(item => item.dataIndex !== 'action')
     options = {

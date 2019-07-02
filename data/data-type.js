@@ -5,7 +5,7 @@
  * @description 基于数据类型基础类
  * @createDate 2019-01-20
  */
-import { DATA_SEPARATOR, LETTER_CASE, DATA_REGEX_PATTERN } from '../constants';
+import { DATA_REGEX_PATTERN } from '../constants';
 
 const _data_core = {
   _is: (type, primitive = false) => {
