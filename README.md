@@ -134,7 +134,7 @@ export default {
 | formatDateTime | func | format the date time for the params **date**, **{short,format}**(default: YYYY-MM-DD HH:mm[:ss]) | DataUtil.formatDateTime(new Date()) |
 | formatTime | func | format the time for the params **date**, **{short,format}**(default: HH:mm[:ss])  | DataUtil.formatTime(new Date()) |
 | getLast12Months | func | get the previous 12 months for current date **separator**(default: '-'), **current**(default:true)  | DataUtil.getLast12Months() |
-| getSecureText | func | get the secure text with '*' for the params **stars**(default: 4), **ignore**(default:false), **before**(default:3)  | DataUtil.getSecureText('135666668888') |
+| getSecureText | func | get the secure text with '*' for the params **stars**(default: 4), **ignore**(default:false), **before**(default:3)  | DataUtil.getSecureText('13566668888') |
 | pick | func | get the partial props for **items** and **props**(multi) | DataType.pick(users, 'name', 'age') | 
 | uncamelize | func | split the camelcase string into separator for **item** and **{separator,letterCase}**(upper,lower) | DataType.uncamelize('getDataList') |
 | toUpperFirst | func | convert the first letter as upper **item** | DataType.toUpperFirst('miracle') |    
