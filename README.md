@@ -57,7 +57,12 @@ export default {
     api: 'https://easy-mock.com/mock/5cd97b7ceebf633b5de54c25/billingapi'
   }
 }
-```
+````
+- `DataEvent` **object** The application will register event for window and document.
+####
+| prop or func | type | description | example |
+| ------------ | ------------ | ------------ | ------------ |
+| scroll | func | register the scroll event listener for **handler**, **threshold** | DataEvent.scroll(() => { console.log('scrolling');}, {threshold: 50}) |
 - `DataBus` **class** Handle the emit and on/off the event.
 ####
 | prop or func | type | description | example |

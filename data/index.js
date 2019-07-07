@@ -1,6 +1,7 @@
 export * from './data-api';
 export * from './data-bus';
 export * from './data-env';
+export * from './data-event';
 export * from './data-fetch';
 export * from './data-formatter';
 export * from './data-security';

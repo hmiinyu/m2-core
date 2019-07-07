@@ -125,7 +125,8 @@ export const LETTER_CASE = {
  * @createDate 2019-01-20
  */
 export const FETCH_DEFAULT_OPTIONS = {
-  loading: true,
+  loading: false,
+  itemsName: 'list',
   method: REQUEST_METHOD.Get,
   params: {},
   key: false,
