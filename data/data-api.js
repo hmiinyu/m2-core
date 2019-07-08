@@ -16,7 +16,7 @@ export const DataApi = (config, prefix = '') => {
     if (api) return api;
   }
   api = Object.keys(config).reduce((api, key) => {
-    const val = config[key]
+    const val = config[key];
     if (DataType.isString(val)) {
       if (!val.startsWith('/')) {
         config[key] = `/${val}`
