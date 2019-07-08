@@ -19,7 +19,7 @@ export const DataApi = (config, prefix = '') => {
     const val = config[key];
     if (DataType.isString(val)) {
       if (!val.startsWith('/')) {
-        config[key] = `/${val}`
+        config[key] = `/${val}`;
       }
       api[key] = `${prefix}${config[key]}`;
     }

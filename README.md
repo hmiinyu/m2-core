@@ -23,9 +23,13 @@ the application api mapping file is located: src/features/app/constants/api.conf
 import { DataApi } from 'm2-core'
 
 export default DataApi({
- 'getDictList': '/dict',
- 'getDataList': '/home/data_list',
- 'getDataItem': '/home/data_item'
+ getDictList: '/dict/list',
+ getDataList: '/home/data_list',
+ getDataItem: '/home/data_item',
+ user: {
+   list: '/user/list',
+   detail: '/user/detail'
+ }
 }, '/api')
  ````
 - `DataEnv` **object** The application multi-environment configuration.
