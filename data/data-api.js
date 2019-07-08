@@ -1,7 +1,7 @@
+import { DataType } from './data-type';
 import { DataStorage } from './data-storage';
 import { IsDev } from './data-env';
 import { SYMMETRIC_CRYPTO_TYPE } from '../constants';
-
 /**
  * @file DataApi
  * @author Miracle He
@@ -16,10 +16,16 @@ export const DataApi = (config, prefix = '') => {
     if (api) return api;
   }
   api = Object.keys(config).reduce((api, key) => {
-    if (!config[key].startsWith('/')) {
-      config[key] = `/${config[key]}`
+    const val = config[key]
+    if (DataType.isString(val)) {
+      if (!val.startsWith('/')) {
+        config[key] = `/${val}`
+      }
+      api[key] = `${prefix}${config[key]}`;
     }
-    api[key] = `${prefix}${config[key]}`;
+    if (DataType.isObject(val)) {
+      api[key] = DataApi(val, prefix);
+    }
     return api;
   }, {});
   if (!IsDev) {
