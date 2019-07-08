@@ -29,6 +29,11 @@ export default DataApi({
  user: {
    list: '/user/list',
    detail: '/user/detail'
+ },
+ product: {
+   list: '/product/list',
+   detail: '/product/detail',
+   category: '/product/category'
  }
 }, '/api')
  ````
