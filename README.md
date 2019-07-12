@@ -1,6 +1,6 @@
 ## m2-core
 
-[![](https://img.shields.io/badge/m2--core-v1.1.5-green.svg)](https://github.com/hmiinyu/m2-core.git) <br/>
+[![](https://img.shields.io/badge/m2--core-v1.1.6-green.svg)](https://github.com/hmiinyu/m2-core.git) <br/>
 The package is provided utilities and facilities for business frontend framework.
 
 ### Usage
@@ -10,7 +10,7 @@ npm install m2-core
 yarn add m2-core
 ```
 ### APIs
-- `DataApi` **function** Get the application api url mapping with the param *config* and *prefix*.
+- `DataApi` **function** Get the application api url mapping with the param *config*,*prefix* and *mock*.
 ##### notes
 the application api mapping file is located: src/features/app/constants/api.conf.js
 ####
@@ -18,6 +18,7 @@ the application api mapping file is located: src/features/app/constants/api.conf
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 | config | object | api key-value pair |  | { 'getDictList': '/dict','getDataList': '/home/data_list', 'getDataItem': '/home/data_item' } |
 | prefix | string | api url prefix | '' | 'api'|
+| mock | array or object | mock api list | null | |
 ```js
 // api.conf.js
 import { DataApi } from 'm2-core'
@@ -35,7 +36,31 @@ export default DataApi({
    detail: '/product/detail',
    category: '/product/category'
  }
-}, '/api')
+}, '/api', [
+  '/user/list',
+  '/product/detail'
+])
+
+export default DataApi({
+ getDictList: '/dict/list',
+ getDataList: '/home/data_list',
+ getDataItem: '/home/data_item',
+ user: {
+   list: '/user/list',
+   detail: '/user/detail'
+ },
+ product: {
+   list: '/product/list',
+   detail: '/product/detail',
+   category: '/product/category'
+ }
+}, '/api', {
+  prefix: '/mock-api',
+  urls: [
+    '/user/list',
+    '/product/detail'
+  ]
+})
  ````
 - `DataEnv` **object** The application multi-environment configuration.
 ##### notes
