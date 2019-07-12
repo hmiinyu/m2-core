@@ -18,7 +18,7 @@ the application api mapping file is located: src/features/app/constants/api.conf
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 | config | object | api key-value pair |  | { 'getDictList': '/dict','getDataList': '/home/data_list', 'getDataItem': '/home/data_item' } |
 | prefix | string | api url prefix | '' | 'api'|
-| mock | array or object | mock api list | null | |
+| mock | array or object | mock api list | null | ['/user/list', '/product/detail'] or { prefix: '/mock-api', urls: ['/user/list', '/product/detail'] } |
 ```js
 // api.conf.js
 import { DataApi } from 'm2-core'
@@ -40,7 +40,6 @@ export default DataApi({
   '/user/list',
   '/product/detail'
 ])
-
 export default DataApi({
  getDictList: '/dict/list',
  getDataList: '/home/data_list',
