@@ -16,7 +16,7 @@ const _api_mapping = (config, prefix, mock) => {
       if (!val.startsWith('/')) {
         config[key] = `/${val}`;
       }
-      if (mock.urls.indexOf(config[key]) > -1) {
+      if (mock && mock.urls.indexOf(config[key]) > -1) {
         api[key] = `${prefix}${mock.prefix}${config[key]}`;
       } else {
         api[key] = `${prefix}${config[key]}`;
