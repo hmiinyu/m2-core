@@ -8,15 +8,15 @@ import { DataStorage } from './data-storage';
  * @createDate 2019-05-12
  */
 export const DataEnv = {
+  local: { env: 'localization', alias: 'local' },
   dev: { env: 'development', alias: 'dev' },
   st: { env: 'stagingment', alias: 'st' },
   uat: { env: 'integration', alias: 'uat' },
-  prod: { env: 'production', alias: 'prod' },
-  test: { env: 'test', alias: 'test' }
+  prod: { env: 'production', alias: 'prod' }
 };
 // 是否为开发环境
 export const IsDev = process.env.NODE_ENV === 'development';
-export const getEnvConfig = (key = '') => {
+export const getEnvConfig = (env, key = '') => {
   let config;
   const _key = key ? `_${key}` : '';
   const _cacheKey = `m2:app_env_config${_key}`;
@@ -26,10 +26,10 @@ export const getEnvConfig = (key = '') => {
     if (config) return config;
   }
 
-  const nodeEnv = process.env.NODE_ENV;
+  const buildEnv = process.env.BUILD_ENV;
   for (let prop in env) {
     const currentEnv = { ...(DataEnv[prop] || { env: prop, alias: prop }), ...env[prop] };
-    if (currentEnv.env === nodeEnv || currentEnv.alias === nodeEnv) {
+    if (currentEnv.env === buildEnv || currentEnv.alias === buildEnv) {
       config = key ? currentEnv[key] : currentEnv;
       if (config) {
         !IsDev && DataStorage.set(_cacheKey, config);

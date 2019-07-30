@@ -23,10 +23,10 @@ const _parseBaseUrl = (baseUrl, env, apiKey = '') => {
     if (apiUrl) return apiUrl;
   }
 
-  const nodeEnv = process.env.NODE_ENV;
+  const buildEnv = process.env.BUILD_ENV;
   for (let prop in env) {
     const currentEnv = { ...(DataEnv[prop] || { env: prop, alias: prop }), ...env[prop] };
-    if (currentEnv.env === nodeEnv || currentEnv.alias === nodeEnv) {
+    if (currentEnv.env === buildEnv || currentEnv.alias === buildEnv) {
       if (DataType.isString(currentEnv.api)) {
         apiUrl = currentEnv.api;
       } else if (DataType.isObject(currentEnv.api)) {

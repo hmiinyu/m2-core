@@ -74,4 +74,12 @@ export class DataStorage {
     const { storage } = _store_core(storageType);
     storage.clear();
   }
+  /**
+   * @method 获取存储实例中的个数
+   * @param storageType 存储类型（默认：STORAGE_TYPE.Local）
+   */
+  static count(storageType = STORAGE_TYPE.Local) {
+    const { storage } = _store_core(storageType);
+    return storage.length;
+  }
 }
