@@ -146,6 +146,7 @@ export default {
 | set | func | save the value into storage for the params **key**, **value** and **options** | DataStorage.set('loginUser', { name: 'Miracle'}, { storageType, encryptType })  |
 | remove | func | remove the item from storage for the params **key** and **storageType**| DataStorage.remove('loginUser', STORAGE_TYPE.Local) |
 | clear | func | clear all items from storage for the params **storageType**| DataStorage.clear(STORAGE_TYPE.Local) |
+| count | func | get the count of storage for the params **storageType**| DataStorage.count(STORAGE_TYPE.Local) |
 - `DataSecurity` **class** Provide the encrypt and decrypt based on symmetric and asymmetric algorithm.
 #### 
 | prop or func | type | description | example |

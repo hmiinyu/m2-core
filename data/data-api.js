@@ -1,6 +1,6 @@
 import { DataType } from './data-type';
 import { DataStorage } from './data-storage';
-import { IsDev } from './data-env';
+import { IsDev, getEnvAlias } from './data-env';
 import { SYMMETRIC_CRYPTO_TYPE } from '../constants';
 /**
  * @file DataApi
@@ -51,11 +51,13 @@ const _api_mocking = (config) => {
 export const DataApi = (config, prefix = '', mock = null) => {
   let api = {};
   mock = _api_mocking(mock);
+  const _buildEnv = process.env.BUILD_ENV;
+  const _cacheKey = `m2:app_api_mapping_${getEnvAlias(_buildEnv)}`;
   if (!IsDev) {
-    api = DataStorage.get('m2:app_api_mapping', { encryptType: SYMMETRIC_CRYPTO_TYPE.DES });
+    api = DataStorage.get(_cacheKey, { encryptType: SYMMETRIC_CRYPTO_TYPE.DES });
     if (!api) {
       api = _api_mapping(config, prefix, mock);
-      DataStorage.set('m2:app_api_mapping', api, { encryptType: SYMMETRIC_CRYPTO_TYPE.DES });
+      DataStorage.set(_cacheKey, api, { encryptType: SYMMETRIC_CRYPTO_TYPE.DES });
     }
   } else {
     api = _api_mapping(config, prefix, mock);

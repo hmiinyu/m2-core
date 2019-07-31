@@ -10,23 +10,23 @@ import jsonpd from 'jsonp';
 import { REQUEST_METHOD } from '../constants';
 import { DataType } from './data-type';
 import { DataStorage } from './data-storage';
-import { DataEnv, IsDev } from './data-env';
+import { DataEnv, IsDev, getEnvAlias } from './data-env';
 
 const _parseBaseUrl = (baseUrl, env, apiKey = '') => {
   if (baseUrl) return baseUrl;
   let apiUrl = '';
+  const _buildEnv = process.env.BUILD_ENV;
   const _apiKey = apiKey ? `_${apiKey}` : '';
-  const _cacheKey = `m2:app_api_url${_apiKey}`;
+  const _cacheKey = `m2:app_api_url${_apiKey}_${getEnvAlias(_buildEnv)}`;
 
   if (!IsDev) {
     apiUrl = DataStorage.get(_cacheKey);
     if (apiUrl) return apiUrl;
   }
 
-  const buildEnv = process.env.BUILD_ENV;
   for (let prop in env) {
     const currentEnv = { ...(DataEnv[prop] || { env: prop, alias: prop }), ...env[prop] };
-    if (currentEnv.env === buildEnv || currentEnv.alias === buildEnv) {
+    if (currentEnv.env === _buildEnv || currentEnv.alias === _buildEnv) {
       if (DataType.isString(currentEnv.api)) {
         apiUrl = currentEnv.api;
       } else if (DataType.isObject(currentEnv.api)) {
