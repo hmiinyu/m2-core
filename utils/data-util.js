@@ -151,7 +151,7 @@ export class DataUtil {
    */
   static formatDate(date, format = DATE_FORMATTER.date) {
     if (!date) return '';
-    return moment(date).format(format);
+    return moment(new Date(date).toISOString()).format(format);
   }
 
   /**
