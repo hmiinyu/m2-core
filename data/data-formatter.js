@@ -11,6 +11,7 @@ export const formatTime = DataUtil.formatTime;
  * @return string
  */
 export const formatMoney = (money, precision = 2) => {
+  if (isNaN(money)) return '';
   let [temp, digit, integer, buffer, positive] = [0.00, 0, 0, [], true];
   const _zero = (val, len) => {
     var _temp = val.toString();
