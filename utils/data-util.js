@@ -213,12 +213,12 @@ export class DataUtil {
   /**
    * @method 获取带星号的文本
    * @param String item 当前需要处理的文本
-   * @param {Object} {stars,ignore,before} 添加多少个星号,是否不处理(原文返回),星号前导字符数
+   * @param {Object} {stars,ignore,before,after} 添加多少个星号,是否不处理(原文返回),星号前导字符数,星号后导字符数
    * @returns {String} 返回处理之后的文本
    */
-  static getSecureText(item, {stars = 4, ignore = false, before = 3} = {}) {
+  static getSecureText(item, {stars = 4, ignore = false, before = 3, after = 4} = {}) {
     const len = item.length;
-    if (stars <= 0 || len < stars + before || ignore) {
+    if (stars <= 0 || len < stars + before + after || ignore) {
       return item;
     }
     let secure = '';
@@ -226,7 +226,7 @@ export class DataUtil {
       secure += '*';
     }
 
-    const pattern = DATA_REGEX_PATTERN.secure.replace('{before}',`{${before}}`).replace('{after}', `{${len - before - stars}}`);
+    const pattern = DATA_REGEX_PATTERN.secure.replace('{before}',`{${before}}`).replace('{after}', `{${after}}`);
     return item.replace(new RegExp(pattern), '$1' + secure + '$2');
   }
 
