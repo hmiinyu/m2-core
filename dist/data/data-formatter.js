@@ -1,0 +1,80 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.unformatMoney = exports.formatMoney = exports.formatTime = exports.formatDateTime = exports.formatDate = void 0;
+
+var _dataUtil = require("../utils/data-util");
+
+var formatDate = _dataUtil.DataUtil.formatDate;
+exports.formatDate = formatDate;
+var formatDateTime = _dataUtil.DataUtil.formatDateTime;
+exports.formatDateTime = formatDateTime;
+var formatTime = _dataUtil.DataUtil.formatTime;
+/**
+ * 数字千分位格式化
+ * @public
+ * @param number money 数值
+ * @param int precision 小数位精度(默认为2)
+ * @return string
+ */
+
+exports.formatTime = formatTime;
+
+var formatMoney = function formatMoney(money) {
+  var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+  if (isNaN(money)) return '';
+  var temp = 0.00,
+      digit = 0,
+      integer = 0,
+      buffer = [],
+      positive = true;
+
+  var _zero = function _zero(val, len) {
+    var _temp = val.toString();
+
+    var _buffer = [];
+
+    for (var i = 0, loop = len - _temp.length; i < loop; i++) {
+      _buffer.push('0');
+    }
+
+    _buffer.push(_temp);
+
+    return _buffer.join('');
+  };
+
+  positive = money >= 0; //取出正负号
+
+  temp = isNaN(temp = parseFloat(money)) ? 0 : Math.abs(temp); // 强制转换为绝对值数浮点
+  // 所有内容用正数规则处理
+
+  integer = parseInt(temp); //分离整数部分
+
+  digit = parseInt((temp - integer) * Math.pow(10, precision) + 0.5); // 分离小数部分(四舍五入)
+
+  do {
+    buffer.unshift(_zero(integer % 1000, 3));
+  } while (integer = parseInt(integer / 1000));
+
+  buffer[0] = parseInt(buffer[0]).toString(); // 最高段区去掉前导0
+
+  return (positive ? '' : '-') + buffer.join(',') + '.' + (0 === digit ? '00' : _zero(digit, precision));
+};
+/**
+ * 将千分位格式的数字字符串转换为浮点数
+ * @public
+ * @param string money 数值字符串
+ * @return float
+ */
+
+
+exports.formatMoney = formatMoney;
+
+var unformatMoney = function unformatMoney(money) {
+  var temp = parseFloat(money.replace(/,/g, ''));
+  return isNaN(temp) ? 0 : temp;
+};
+
+exports.unformatMoney = unformatMoney;
