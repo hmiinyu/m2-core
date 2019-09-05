@@ -70,6 +70,45 @@ var _parseBaseUrl = function _parseBaseUrl(baseUrl, env) {
   return apiUrl;
 };
 
+var _configInterceptor = function _configInterceptor(retry, retryDelay) {
+  if (retry <= 0) return _axios["default"];
+  _axios["default"].defaults.retry = retry;
+  _axios["default"].defaults.retryDelay = retryDelay;
+
+  _axios["default"].interceptors.response.use(undefined, function (err) {
+    var config = err.config; // If config does not exist or the retry option is not set, reject
+
+    if (!config || !config.retry) {
+      return Promise.reject(err);
+    } // Set the variable for keeping track of the retry count
+
+
+    config.__retryCount = config.__retryCount || 0; // Check if we've maxed out the total number of retries
+
+    if (config.__retryCount >= config.retry) {
+      // Reject with the error
+      err.failure = true;
+      err.message = "Retry ".concat(config.retry, " times, the request has been terminated.");
+      return Promise.reject(err);
+    } // Increase the retry count
+
+
+    config.__retryCount += 1; // Create new promise to handle exponential backoff
+
+    var backoff = new Promise(function (resolve) {
+      setTimeout(function () {
+        resolve();
+      }, config.retryDelay || 1);
+    }); // Return the promise in which recalls axios to retry the request
+
+    return backoff.then(function () {
+      return (0, _axios["default"])(config);
+    });
+  });
+
+  return _axios["default"];
+};
+
 var DataFetch =
 /*#__PURE__*/
 function () {
@@ -83,11 +122,12 @@ function () {
     /**
      * @method 根据当前url请求数据
      * @param {String} url 当前请求的url
-     * @param {Object} {fetch} 外部传入的fetch实例(覆盖默认的axios)
      * @param {String} {baseUrl} 当前请求的域名url
      * @param {Object} {env} 当前环境变量的配置对象
      * @param {String} {apiKey} 当前请求的Api键值(多个Api时起作用，用于过滤)
      * @param {String} {method} 当前请求的方法(get,post,...)
+     * @param {Number} {retry} 自动重试次数(为0代表不重试)
+     * @param {Number} {retryDelay} 再次重试的延迟毫秒数(默认1秒)
      * @param {Number} {timeout} 当前请求的超时时
      * @param {Object} {headers} 当前请求的header
      * @param {Object} {params} 当前请求的参数
@@ -95,13 +135,16 @@ function () {
      */
     value: function request(url) {
       var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          fetch = _ref.fetch,
           baseUrl = _ref.baseUrl,
           env = _ref.env,
           _ref$apiKey = _ref.apiKey,
           apiKey = _ref$apiKey === void 0 ? '' : _ref$apiKey,
           _ref$method = _ref.method,
           method = _ref$method === void 0 ? _constants.REQUEST_METHOD.Get : _ref$method,
+          _ref$retry = _ref.retry,
+          retry = _ref$retry === void 0 ? 3 : _ref$retry,
+          _ref$retryDelay = _ref.retryDelay,
+          retryDelay = _ref$retryDelay === void 0 ? 1000 : _ref$retryDelay,
           _ref$timeout = _ref.timeout,
           timeout = _ref$timeout === void 0 ? 30000 : _ref$timeout,
           _ref$headers = _ref.headers,
@@ -109,7 +152,8 @@ function () {
           _ref$params = _ref.params,
           params = _ref$params === void 0 ? {} : _ref$params;
 
-      var $fetch = fetch || _axios["default"];
+      var $axios = _configInterceptor(retry, retryDelay);
+
       return new Promise(function (resolve, reject) {
         var options = {
           url: url,
@@ -125,7 +169,7 @@ function () {
           options.data = params;
         }
 
-        $fetch(options).then(function (res) {
+        $axios(options).then(function (res) {
           if (res.status === 200) {
             resolve(res.data);
           } else {
