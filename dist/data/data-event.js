@@ -42,7 +42,7 @@ var DataEvent = {
    */
   throttle: function throttle(handler) {
     var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3000;
-    var preTime = ate.now();
+    var preTime = Date.now();
     return function (e) {
       var context = _this;
       e.persist && e.persist(); // 保留对事件的引用
