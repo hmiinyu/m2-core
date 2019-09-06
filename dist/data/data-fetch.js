@@ -98,7 +98,7 @@ var _configInterceptor = function _configInterceptor(retry, retryDelay) {
     var backoff = new Promise(function (resolve) {
       setTimeout(function () {
         resolve();
-      }, config.retryDelay || 1);
+      }, config.retryDelay);
     }); // Return the promise in which recalls axios to retry the request
 
     return backoff.then(function () {
@@ -128,7 +128,7 @@ function () {
      * @param {String} {method} 当前请求的方法(get,post,...)
      * @param {Number} {retry} 自动重试次数(为0代表不重试)
      * @param {Number} {retryDelay} 再次重试的延迟毫秒数(默认1秒)
-     * @param {Number} {timeout} 当前请求的超时时
+     * @param {Number} {timeout} 当前请求的超时毫秒数(默认30秒)
      * @param {Object} {headers} 当前请求的header
      * @param {Object} {params} 当前请求的参数
      * @returns 返回当前请求的promise

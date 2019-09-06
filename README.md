@@ -96,8 +96,8 @@ export default {
 | prop or func | type | description | example |
 | ------------ | ------------ | ------------ | ------------ |
 | scroll | func | register the scroll event listener for **handler**, **threshold** | DataEvent.scroll(() => { console.log('scrolling');}, {threshold: 50}) |
-| throttle | func | register the throttle event listener for **handler**, **delay** | DataEvent.throttle(() => { console.log('scrolling');}, 3000) |
-| debounce | func | register the debounce event listener for **handler**, **delay** | DataEvent.debounce(() => { console.log('scrolling');}, 3000) |
+| throttle | func | register the throttle event listener for **handler**, **delay** | DataEvent.throttle(() => { console.log('throttle');}, 3000) |
+| debounce | func | register the debounce event listener for **handler**, **delay** | DataEvent.debounce(() => { console.log('debounce');}, 3000) |
 - `DataBus` **class** Handle the emit and on/off the event.
 ####
 | prop or func | type | description | example |
