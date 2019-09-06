@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DataEvent = void 0;
 
-var _this = void 0;
-
 /**
  * @file DataEvent
  * @author Miracle He
@@ -42,16 +40,21 @@ var DataEvent = {
    */
   throttle: function throttle(handler) {
     var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3000;
-    var preTime = Date.now();
-    return function (e) {
-      var context = _this;
-      e.persist && e.persist(); // 保留对事件的引用
+    var last, deferTimer;
+    return function () {
+      var that = this;
+      var args = arguments;
+      var now = +new Date();
 
-      var doTime = Date.now();
-
-      if (doTime - preTime >= delay) {
-        handler.apply(context);
-        preTime = Date.now();
+      if (last && now < last + delay) {
+        deferTimer && clearTimeout(deferTimer);
+        deferTimer = setTimeout(function () {
+          last = now;
+          handler.apply(that, args);
+        }, delay);
+      } else {
+        last = now;
+        handler.apply(that, args);
       }
     };
   },
@@ -63,16 +66,16 @@ var DataEvent = {
    */
   debounce: function debounce(handler) {
     var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3000;
-    var timeout; // 定时器变量
+    var timeout;
+    return function () {
+      // 获取函数的作用域和变量
+      var that = this;
+      var args = arguments; // 每次事件被触发，都会清除当前的timer，然后重写设置超时调用
 
-    return function (e) {
-      timeout && clearTimeout(timeout); // 每次触发时先清除上一次的定时器然后重新计时
-
-      e.persist && e.persist(); // 保留对事件的引用
-
+      timeout && clearTimeout(timeout);
       timeout = setTimeout(function () {
-        handler(e);
-      }, delay); // 指定3秒后触发handler
+        handler.apply(that, args);
+      }, delay);
     };
   }
 };
