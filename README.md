@@ -1,6 +1,6 @@
 ## m2-core
 
-[![](https://img.shields.io/badge/m2--core-v1.2.4-green.svg)](https://github.com/hmiinyu/m2-core.git) <br/>
+[![](https://img.shields.io/badge/m2--core-v1.2.5-green.svg)](https://github.com/hmiinyu/m2-core.git) <br/>
 The package is provided utilities and facilities for business frontend framework.
 
 ### Usage
@@ -96,6 +96,8 @@ export default {
 | prop or func | type | description | example |
 | ------------ | ------------ | ------------ | ------------ |
 | scroll | func | register the scroll event listener for **handler**, **threshold** | DataEvent.scroll(() => { console.log('scrolling');}, {threshold: 50}) |
+| throttle | func | register the throttle event listener for **handler**, **delay** | DataEvent.throttle(() => { console.log('scrolling');}, 3000) |
+| debounce | func | register the debounce event listener for **handler**, **delay** | DataEvent.debounce(() => { console.log('scrolling');}, 3000) |
 - `DataBus` **class** Handle the emit and on/off the event.
 ####
 | prop or func | type | description | example |
