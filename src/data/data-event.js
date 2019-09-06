@@ -24,7 +24,7 @@ export const DataEvent = {
    * @param {Number} {delay} 恢复点击的毫秒数
    */
   throttle: (handler, delay = 3000) => {
-    let preTime = ate.now();
+    let preTime = Date.now();
     return (e) => {
       const context = this;
       e.persist && e.persist(); // 保留对事件的引用
