@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DataEvent = void 0;
+exports.debounce = exports.throttle = exports.DataEvent = void 0;
 
 /**
  * @file DataEvent
@@ -34,12 +34,11 @@ var DataEvent = {
   },
 
   /**
-   * @method 截流函数(3s内只能点击一次，点击后立即触发，重复点击无效，必须等3s之后才能点击第二次)
+   * @method 节流函数(3s内只能点击一次，点击后立即触发，重复点击无效，必须等3s之后才能点击第二次)
    * @param {Function} {handler} 事件处理函数
    * @param {Number} {delay} 恢复点击的毫秒数
    */
-  throttle: function throttle(handler) {
-    var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3000;
+  throttle: function throttle(handler, delay) {
     var last, deferTimer;
     return function () {
       var that = this;
@@ -64,8 +63,7 @@ var DataEvent = {
    * @param {Function} {handler} 事件处理函数
    * @param {Number} {delay} 恢复点击的毫秒数
    */
-  debounce: function debounce(handler) {
-    var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3000;
+  debounce: function debounce(handler, delay) {
     var timeout;
     return function () {
       // 获取函数的作用域和变量
@@ -80,3 +78,23 @@ var DataEvent = {
   }
 };
 exports.DataEvent = DataEvent;
+
+var throttle = function throttle() {
+  var delay = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3000;
+  return function (target, prop, descriptor) {
+    descriptor.value = DataEvent.throttle(descriptor.value, delay);
+    return descriptor;
+  };
+};
+
+exports.throttle = throttle;
+
+var debounce = function debounce() {
+  var delay = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 3000;
+  return function (target, prop, descriptor) {
+    descriptor.value = DataEvent.debounce(descriptor.value, delay);
+    return descriptor;
+  };
+};
+
+exports.debounce = debounce;
